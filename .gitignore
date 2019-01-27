@@ -2,6 +2,14 @@
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+
 ### STS ###
 .apt_generated
 .classpath
@@ -17,10 +25,5 @@
 *.iml
 *.ipr
 /out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+src/main/resources/static/
+src/main/resources/templates/
