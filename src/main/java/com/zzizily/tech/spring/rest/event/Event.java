@@ -2,15 +2,17 @@ package com.zzizily.tech.spring.rest.event;
 
 import lombok.*;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter @EqualsAndHashCode(of = "id")
+@Entity
 public class Event {
+  @Id
+  @GeneratedValue
   private Integer id;
   private String name;
   private String description;
@@ -25,5 +27,5 @@ public class Event {
   private boolean offline;
   private boolean free;
   @Enumerated(EnumType.STRING)
-  private EventStatus eventStatus;
+  private EventStatus eventStatus = EventStatus.DRAFT;
 }

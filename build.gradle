@@ -33,17 +33,17 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-rest'
   implementation 'org.springframework.boot:spring-boot-starter-hateoas'
   implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'org.flywaydb:flyway-core'
   implementation 'org.postgresql:postgresql'
+  implementation 'org.modelmapper:modelmapper:2.3.2'
+  implementation 'com.h2database:h2'
   runtimeOnly 'org.springframework.boot:spring-boot-devtools'
   compileOnly 'org.projectlombok:lombok'
 
-  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
-  testImplementation 'org.junit.jupiter:junit-jupiter-params:5.3.2'
-  testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
-  testImplementation 'org.mockito:mockito-junit-jupiter:2.23.4'
-  testImplementation "org.mockito:mockito-core:2.+"
+//  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
+//  testImplementation 'org.junit.jupiter:junit-jupiter-params:5.3.2'
+//  testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
+//  testImplementation 'org.mockito:mockito-junit-jupiter:2.23.4'
+//  testImplementation "org.mockito:mockito-core:2.+"
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-  testRuntimeOnly 'com.h2database:h2'
 }
