@@ -1,14 +1,15 @@
 package com.zzizily.tech.spring.rest.event;
 
-import org.junit.After;
-import org.junit.Before;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+@RunWith(JUnitParamsRunner.class)
 public class EventTest {
 
   @Test
@@ -37,40 +38,40 @@ public class EventTest {
   }
 
   @Test
-  public void testFree() {
+  @Parameters(method = "parametersForTestFree")
+  public void testFree(int basePrice, int maxPrice, boolean isFree) {
     Event event = Event.builder()
-            .basePrice(new BigDecimal(0))
-            .maxPrice(new BigDecimal(0))
+            .basePrice(new BigDecimal(basePrice))
+            .maxPrice(new BigDecimal(maxPrice))
             .build();
     event.update();
-    assertThat(event.isFree()).isTrue();
+    assertThat(event.isFree()).isEqualTo(isFree);
+  }
 
-    event = Event.builder()
-            .basePrice(new BigDecimal(100))
-            .maxPrice(new BigDecimal(0))
-            .build();
-    event.update();
-    assertThat(event.isFree()).isFalse();
-
-    event = Event.builder()
-            .basePrice(new BigDecimal(0))
-            .maxPrice(new BigDecimal(1000))
-            .build();
-    event.update();
-    assertThat(event.isFree()).isFalse();
+  private Object[] parametersForTestFree() {
+    return new Object[]{
+      new Object[]{0, 0, true},
+      new Object[]{100, 0, false},
+      new Object[]{0, 1000, false},
+    };
   }
 
   @Test
-  public void testOnOffline() {
+  @Parameters(method = "parametersForOnOffline")
+  public void testOnOffline(String location, boolean isOffLine) {
     Event event = Event.builder()
-            .location("교대역 동익성봉빌딩 5층")
+            .location(location)
             .build();
     event.update();
-    assertThat(event.isOffline()).isTrue();
+    assertThat(event.isOffline()).isEqualTo(isOffLine);
+  }
 
-    event = Event.builder()
-            .build();
-    event.update();
-    assertThat(event.isOffline()).isFalse();
+  private Object[] parametersForOnOffline() {
+    return new Object[]{
+      new Object[]{"교대역 동익성봉빌딩 5층", true},
+      new Object[]{"", false},
+      new Object[]{"   ", false},
+      new Object[]{null, false}
+    };
   }
 }
