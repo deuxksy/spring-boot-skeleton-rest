@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -32,27 +33,28 @@ public class EventContrillerTest {
   @Test
   public void createEvnet() throws Exception {
     EventDTO eventDTO = EventDTO.builder()
-      .name("설 이벤트")
-      .description("좀 사주세요 매출 채워야 해요")
+      .name("Spring")
+      .description("REST API Development with Spring")
       .beginEnrollmentDateTime(LocalDateTime.of(2019, 1, 27, 11, 34))
       .closeEnrollmentDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
       .beginEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
       .endEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
-      .location("서울시 강남구 토즈")
+      .basePrice(new BigDecimal(1000))
+      .maxPrice(new BigDecimal(10000))
+      .limitOfEnrollment(100)
+      .location("강남역 D2 스타텁 팩토리")
       .build();
 
-    mockMvc.perform(
-            post("/api/events")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .accept(MediaTypes.HAL_JSON)
-                    .content(objectMapper.writeValueAsString(eventDTO)
-                    )
-    )
-            .andDo(print())
-            .andExpect(status().isCreated())
-            .andExpect(jsonPath("id").exists())
-            .andExpect(header().exists(HttpHeaders.LOCATION))
-            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
+      mockMvc.perform(post("/api/events")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .accept(MediaTypes.HAL_JSON)
+        .content(objectMapper.writeValueAsString(eventDTO)
+      ))
+      .andDo(print())
+      .andExpect(status().isCreated())
+      .andExpect(jsonPath("id").exists())
+      .andExpect(header().exists(HttpHeaders.LOCATION))
+      .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
     ;
   }
 
@@ -66,6 +68,9 @@ public class EventContrillerTest {
       .closeEnrollmentDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
       .beginEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
       .endEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .basePrice(new BigDecimal(100))
+      .maxPrice(new BigDecimal(1000))
+      .limitOfEnrollment(100)
       .location("서울시 강남구 토즈")
       .build();
 
@@ -90,6 +95,30 @@ public class EventContrillerTest {
       ))
       .andDo(print())
       .andExpect(status().isBadRequest())
+    ;
+  }
+
+  @Test
+  public void createEvnetBadRequestWrongInput() throws Exception {
+    EventDTO eventDTO = EventDTO.builder()
+      .name("설 이벤트")
+      .description("좀 사주세요 매출 채워야 해요")
+      .beginEnrollmentDateTime(LocalDateTime.of(2019, 1, 27, 11, 34))
+      .closeEnrollmentDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .beginEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .endEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .basePrice(new BigDecimal(10000))
+      .maxPrice(new BigDecimal(1000))
+      .limitOfEnrollment(100)
+      .location("서울시 강남구 토즈")
+      .build();
+
+    mockMvc.perform(post("/api/events")
+      .contentType(MediaType.APPLICATION_JSON_UTF8)
+      .content(objectMapper.writeValueAsString(eventDTO)
+      ))
+      .andDo(print())
+//      .andExpect(status().isBadRequest())
     ;
   }
 }

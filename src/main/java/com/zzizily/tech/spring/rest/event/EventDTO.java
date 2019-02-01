@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -31,9 +32,9 @@ public class EventDTO {
 
   private String location;
   @Min(0)
-  private Number basePrice;
+  private BigDecimal basePrice;
   @Min(0)
-  private Number maxPrice;
+  private BigDecimal maxPrice;
   @Min(0)
-  private Number limitOfEnrollment;
+  private Integer limitOfEnrollment;
 }

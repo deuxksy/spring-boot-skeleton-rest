@@ -3,6 +3,7 @@ package com.zzizily.tech.spring.rest.event;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Builder
@@ -21,9 +22,9 @@ public class Event{
   private LocalDateTime beginEventDateTime;
   private LocalDateTime endEventDateTime;
   private String location;
-  private int basePrice;
-  private int maxPrice;
-  private int limitOfEnrollment;
+  private BigDecimal basePrice;
+  private BigDecimal maxPrice;
+  private Integer limitOfEnrollment;
   private boolean offline;
   private boolean free;
   @Enumerated(EnumType.STRING)
