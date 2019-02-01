@@ -1,6 +1,7 @@
 package com.zzizily.tech.spring.rest.event;
 
 import lombok.*;
+import org.apache.logging.log4j.util.Strings;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -31,4 +32,20 @@ public class Event {
   private boolean free;
   @Enumerated(EnumType.STRING)
   private EventStatus eventStatus = EventStatus.DRAFT;
+
+  public Event update() {
+
+    if (new BigDecimal(0).equals(this.basePrice) && new BigDecimal(0).equals(this.maxPrice)) {
+      this.free = true;
+    } else {
+      this.free = false;
+    }
+
+    if (Strings.isNotBlank(this.location)) {
+      offline = true;
+    } else {
+      offline = false;
+    }
+    return this;
+  }
 }

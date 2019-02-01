@@ -1,6 +1,7 @@
 package com.zzizily.tech.spring.rest.event;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,9 @@ import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -55,6 +58,9 @@ public class EventContrillerTest {
       .andExpect(jsonPath("id").exists())
       .andExpect(header().exists(HttpHeaders.LOCATION))
       .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
+      .andExpect(jsonPath("free").value(false))
+      .andExpect(jsonPath("offline").value(true))
+      .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT))
     ;
   }
 
