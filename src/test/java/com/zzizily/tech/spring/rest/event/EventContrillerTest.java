@@ -32,11 +32,14 @@ public class EventContrillerTest {
   @Test
   public void createEvnet() throws Exception {
     EventDTO eventDTO = EventDTO.builder()
-            .name("설 이벤트")
-            .description("좀 사주세요 매출 채워야 해요")
-            .beginEnrollmentDateTime(LocalDateTime.of(2019, 1, 27, 11, 34))
-            .closeEnrollmentDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
-            .build();
+      .name("설 이벤트")
+      .description("좀 사주세요 매출 채워야 해요")
+      .beginEnrollmentDateTime(LocalDateTime.of(2019, 1, 27, 11, 34))
+      .closeEnrollmentDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .beginEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .endEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .location("서울시 강남구 토즈")
+      .build();
 
     mockMvc.perform(
             post("/api/events")
@@ -55,21 +58,38 @@ public class EventContrillerTest {
 
   @Test
   public void createEvnetBadRequest() throws Exception {
-    Event eventDTO = Event.builder()
-    .id(10)
-    .name("설 이벤트")
-    .description("좀 사주세요 매출 채워야 해요")
-    .beginEnrollmentDateTime(LocalDateTime.of(2019, 1, 27, 11, 34))
-    .closeEnrollmentDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
-    .build();
+    Event event = Event.builder()
+      .id(10)
+      .name("설 이벤트")
+      .description("좀 사주세요 매출 채워야 해요")
+      .beginEnrollmentDateTime(LocalDateTime.of(2019, 1, 27, 11, 34))
+      .closeEnrollmentDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .beginEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .endEventDateTime(LocalDateTime.of(2019, 3, 1, 1, 1))
+      .location("서울시 강남구 토즈")
+      .build();
 
     mockMvc.perform(post("/api/events")
       .contentType(MediaType.APPLICATION_JSON_UTF8)
       .accept(MediaTypes.HAL_JSON)
-      .content(objectMapper.writeValueAsString(eventDTO)
+      .content(objectMapper.writeValueAsString(event)
     ))
     .andDo(print())
     .andExpect(status().isBadRequest())
+    ;
+  }
+
+  @Test
+  public void createEvnetBadRequestEmptyInput() throws Exception {
+    EventDTO eventDTO = EventDTO.builder()
+      .build();
+
+    mockMvc.perform(post("/api/events")
+        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(objectMapper.writeValueAsString(eventDTO)
+      ))
+      .andDo(print())
+      .andExpect(status().isBadRequest())
     ;
   }
 }

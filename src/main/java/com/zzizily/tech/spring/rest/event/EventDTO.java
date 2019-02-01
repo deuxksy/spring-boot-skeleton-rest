@@ -6,8 +6,7 @@ import lombok.*;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,18 +15,25 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ApiModel(description = "Class representing a person tracked by the application.")
 public class EventDTO {
-  @NotBlank
-  @Size(min=3, max=20)
-  @ApiModelProperty(notes = "First name of the person.", example = "John", required = true, position = 1)
-  private String firstName;
+
+  @NotEmpty
   private String name;
+  @NotBlank
   private String description;
+  @NotNull
   private LocalDateTime beginEnrollmentDateTime;
+  @NotNull
   private LocalDateTime closeEnrollmentDateTime;
+  @NotNull
   private LocalDateTime beginEventDateTime;
+  @NotNull
   private LocalDateTime endEventDateTime;
+
   private String location;
-  private int basePrice;
-  private int maxPrice;
-  private int limitOfEnrollment;
+  @Min(0)
+  private Number basePrice;
+  @Min(0)
+  private Number maxPrice;
+  @Min(0)
+  private Number limitOfEnrollment;
 }
