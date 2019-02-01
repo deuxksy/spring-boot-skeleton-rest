@@ -1,4 +1,4 @@
 spring:
   jackson:
     deserialization: #MAP
-      fail-on-unknown-properties: false # true Object to JSON 변환시 인자 값이 안맞으면 exception 발생
+      fail-on-unknown-properties: true # true Object to JSON 변환시 인자 값이 안맞으면 exception 발생
