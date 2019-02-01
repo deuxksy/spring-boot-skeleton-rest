@@ -22,9 +22,9 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @Slf4j
 public class EventController {
 
-  private final EventRepository eventRepository;
   private final ModelMapper modelMapper;
   private final EventValidator eventValidator;
+  private final EventService eventService;
 
   @PostMapping("/events")
   public ResponseEntity createEvent(@RequestBody @Valid EventDTO eventDTO, Errors errors) {
@@ -35,8 +35,7 @@ public class EventController {
     if (errors.hasErrors()) {
       return ResponseEntity.badRequest().body(errors);
     }
-
-    Event newEvent = eventRepository.save(modelMapper.map(eventDTO, Event.class));
+    Event newEvent = eventService.save(modelMapper.map(eventDTO, Event.class));
     URI createUri = linkTo(EventController.class).slash(newEvent.getId()).toUri();
     return ResponseEntity.created(createUri).body(newEvent);
   }
