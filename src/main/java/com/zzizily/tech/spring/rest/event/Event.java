@@ -9,9 +9,11 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter @EqualsAndHashCode(of = "id")
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
 @Entity
-public class Event{
+public class Event {
   @Id
   @GeneratedValue
   private Integer id;
